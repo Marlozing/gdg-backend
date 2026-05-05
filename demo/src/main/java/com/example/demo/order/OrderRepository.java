@@ -23,14 +23,14 @@ public class OrderRepository {
 
     public Order findByLoginId(String orderId){
         List<Order> result = em.createQuery(
-                "Select o FROM Order o WHERE o.orderId = :orderId", Order.class
+                "Select o FROM Order o WHERE o.id = :orderId", Order.class
         ).setParameter("orderId", orderId).getResultList();
 
         return result.isEmpty() ? null : result.get(0);
     }
 
     public void save(Order order){
-        return em.persist(order);
+        em.persist(order);
     }
 
     public void deleteById(Long id){

@@ -33,12 +33,12 @@ public class MemberService {
         return member.getId();
     }
 
-    @Transactional(readOnly=True)
+    @Transactional(readOnly = true)
     public List<Member> getAllMembers() {
         return memberRepository.findAll();
     }
 
-    @Transactional(readOnly=True)
+    @Transactional(readOnly=true)
     public Member getMemberById(Long id) {
         Member member = memberRepository.findById(id);
 
@@ -57,7 +57,7 @@ public class MemberService {
             throw new RuntimeException("회원을 찾을 수 없습니다");
         }
 
-        member.updateInfo(request.getPhoneNumber(), request.getPhoneNumber(), request.getAddress());
+        member.updateInfo(request.getPassword(), request.getPhoneNumber(), request.getAddress());
     }
 
     //@Transactional

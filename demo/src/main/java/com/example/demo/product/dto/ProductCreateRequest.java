@@ -4,9 +4,13 @@ import lombok.Getter;
 
 @Getter
 public class ProductCreateRequest {
-    private String productId;
+    private String productName;
+    private int productPrice;
+    private int productStock;
 
-    public ProductCreateRequest(String productId){
-        this.productId = productId;
+    public ProductCreateRequest(String productName, int productPrice, int productStock) {
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productStock = productStock;
     }
 }

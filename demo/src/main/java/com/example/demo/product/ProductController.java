@@ -2,7 +2,6 @@ package com.example.demo.product;
 
 import com.example.demo.product.dto.ProductCreateRequest;
 import com.example.demo.product.dto.ProductUpdateRequest;
-
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
@@ -25,13 +24,13 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<List<Product>> getAllProducts() {
-        List<product> products = productService.getAllMembers();
+        List<Product> products = productService.getAllProducts();
         return ResponseEntity.ok(products);
     }
 
     @GetMapping("/{productId}")
     public ResponseEntity<Product> getProduct(@PathVariable Long productId) {
-        Product product productService.getProductById(productId);
+        Product product = productService.getProductById(productId);
         return ResponseEntity.ok(product);
     }
 
@@ -45,7 +44,7 @@ public class ProductController {
 
     @DeleteMapping("/{productid}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long productId) {
-        productService.deleteMember(productId);
+        productService.deleteProduct(productId);
         return ResponseEntity.noContent().build();
     }
 }

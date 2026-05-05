@@ -21,7 +21,7 @@ public class ProductRepository {
                 .getResultList();
     }
 
-    public Product findByLoginId(String productId){
+    public Product findByProductId(String productId){
         List<Product> result = em.createQuery(
                 "Select p FROM Product p WHERE p.productId = :productId", Product.class
         ).setParameter("productId", productId).getResultList();
@@ -30,7 +30,7 @@ public class ProductRepository {
     }
 
     public void save(Product product){
-        return em.persist(product);
+        em.persist(product);
     }
 
     public void deleteById(Long id){

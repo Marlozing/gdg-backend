@@ -3,24 +3,39 @@ package com.example.demo.order;
 
 
 
+import com.example.demo.member.Member;
+import com.example.demo.member.MemberRepository;
 import com.example.demo.order.dto.OrderCreateRequest;
 import com.example.demo.order.dto.OrderUpdateRequest;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service
+@RequiredArgsConstructor
 public class OrderService {
 
-    private final OrderResposity orderResposity;
+    private final MemberRepository memberRepository;
+    private final OrderRepository orderRepository;
 
-    //@Transactional
+    @Transactional
     public Long createOrder(OrderCreateRequest request) {
-        Order existingOrder = orderResposity.findByOrderId(request.getOrderId()1);
-        if (existingOrder != null) {
-            throw new RuntimeException("이미 존재하는 주문입니다: " + request.getOrderId());
+
+        Member member = memberRepository.findById(request.getMemberId());
+
+        if (member == null) {
+            throw new RuntimeException("존재하지 않는 회원입니다: " + request.getMemberId());
         }
 
         Order order = new Order(
-                request.getOrderId()
+                member,
+                request.getOrderDate(),
+                request.getTotalPrice(),
+                request.getPointused(),
+                request.getCashAmount(),
+                request.getStatus()
         );
 
         orderRepository.save(order);
@@ -28,14 +43,14 @@ public class OrderService {
         return order.getId();
     }
 
-    //@Transactional(readOnly=True)
+    @Transactional(readOnly=true)
     public List<Order> getAllOrders() {
-        return orderResposity.findAll();
+        return orderRepository.findAll();
     }
 
-    //@Transactional(readOnly=True)
+    @Transactional(readOnly=true)
     public Order getOrderById(Long id) {
-        Order order = orderResposity.findById(id);
+        Order order = orderRepository.findById(id);
 
         if (order == null){
             throw new RuntimeException("주문을 찾을 수 없습니다");
@@ -44,18 +59,31 @@ public class OrderService {
         return order;
     }
 
-    //@Transactional
+    @Transactional
     public void updateOrder(Long id, OrderUpdateRequest request){
-        Order order = orderResposity.findById(id);
+        Order order = orderRepository.findById(id);
 
         if (order == null){
             throw new RuntimeException("주문을 찾을 수 없습니다");
         }
 
-        order.updateInfo();
+        Member member = memberRepository.findById(request.getMemberId());
+
+        if (member == null){
+            throw new RuntimeException("존재하지 않는 회원입니다: " + request.getMemberId());
+        }
+
+        order.updateInfo(
+                member,
+                request.getOrderDate(),
+                request.getTotalPrice(),
+                request.getPointused(),
+                request.getCashAmount(),
+                request.getStatus()
+        );
     }
 
-    //@Transactional
+    @Transactional
     public void deleteOrder(Long id){
         Order order = orderRepository.findById(id);
 
@@ -63,6 +91,6 @@ public class OrderService {
             throw new RuntimeException("주문을 찾을 수 없습니다");
         }
 
-        orderResposity.deleteById(id);
+        orderRepository.deleteById(id);
     }
 }
