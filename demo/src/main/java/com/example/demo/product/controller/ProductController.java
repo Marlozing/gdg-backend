@@ -1,7 +1,8 @@
-package com.example.demo.product;
+package com.example.demo.product.controller;
 
-import com.example.demo.product.dto.ProductCreateRequest;
-import com.example.demo.product.dto.ProductUpdateRequest;
+import com.example.demo.product.service.ProductServiceImpl;
+import com.example.demo.product.dto.ProductRequest;
+import com.example.demo.product.entity.Product;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
@@ -14,10 +15,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/products")
 public class ProductController {
-    private final ProductService productService;
+    private final ProductServiceImpl productService;
 
     @PostMapping
-    public ResponseEntity<Void> createProduct(@RequestBody ProductCreateRequest request){
+    public ResponseEntity<Void> createProduct(@RequestBody ProductRequest request){
         Long productId = productService.createProduct(request);
         return ResponseEntity.created(URI.create("/products"+productId)).build();
     }
@@ -37,7 +38,7 @@ public class ProductController {
     @PatchMapping("/{productId}")
     public ResponseEntity<Void> updateProduct(
             @PathVariable Long productId,
-            @RequestBody ProductUpdateRequest request) {
+            @RequestBody ProductRequest request) {
         productService.updateProduct(productId, request);
         return ResponseEntity.ok().build();
     }

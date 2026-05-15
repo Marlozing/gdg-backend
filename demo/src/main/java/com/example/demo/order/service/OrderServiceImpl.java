@@ -1,12 +1,14 @@
-package com.example.demo.order;
+package com.example.demo.order.service;
 
 
 
 
-import com.example.demo.member.Member;
-import com.example.demo.member.MemberRepository;
+import com.example.demo.member.entity.Member;
+import com.example.demo.member.repository.MemberRepository;
 import com.example.demo.order.dto.OrderCreateRequest;
 import com.example.demo.order.dto.OrderUpdateRequest;
+import com.example.demo.order.entity.Order;
+import com.example.demo.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,11 +17,12 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class OrderService {
+public class OrderServiceImpl implements OrderService {
 
     private final MemberRepository memberRepository;
     private final OrderRepository orderRepository;
 
+    @Override
     @Transactional
     public Long createOrder(OrderCreateRequest request) {
 
@@ -43,11 +46,13 @@ public class OrderService {
         return order.getId();
     }
 
+    @Override
     @Transactional(readOnly=true)
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
 
+    @Override
     @Transactional(readOnly=true)
     public Order getOrderById(Long id) {
         Order order = orderRepository.findById(id);
@@ -59,6 +64,7 @@ public class OrderService {
         return order;
     }
 
+    @Override
     @Transactional
     public void updateOrder(Long id, OrderUpdateRequest request){
         Order order = orderRepository.findById(id);
@@ -83,6 +89,7 @@ public class OrderService {
         );
     }
 
+    @Override
     @Transactional
     public void deleteOrder(Long id){
         Order order = orderRepository.findById(id);

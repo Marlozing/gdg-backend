@@ -1,6 +1,6 @@
-package com.example.demo.order;
+package com.example.demo.order.entity;
 
-import com.example.demo.member.Member;
+import com.example.demo.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

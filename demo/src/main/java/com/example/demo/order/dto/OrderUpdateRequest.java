@@ -1,6 +1,5 @@
 package com.example.demo.order.dto;
 
-import com.example.demo.member.Member;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

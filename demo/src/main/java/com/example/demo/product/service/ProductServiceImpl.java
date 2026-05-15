@@ -1,8 +1,9 @@
-package com.example.demo.product;
+package com.example.demo.product.service;
 
 
-import com.example.demo.product.dto.ProductCreateRequest;
-import com.example.demo.product.dto.ProductUpdateRequest;
+import com.example.demo.product.dto.ProductRequest;
+import com.example.demo.product.entity.Product;
+import com.example.demo.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,18 +12,13 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ProductService {
+public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
+    @Override
     @Transactional
-    public Long createProduct(ProductCreateRequest request) {
-        /*
-        Product existingMember = productRepository.findByProductId(request.getProductId());
-        if (existingMember != null) {
-            throw new RuntimeException("이미 존재하는 상품입니다: " + request.getProductId());
-        }
-        */
+    public Long createProduct(ProductRequest request) {
         Product product = new Product(
                 request.getProductName(),
                 request.getProductPrice(),
@@ -34,11 +30,13 @@ public class ProductService {
         return product.getProductId();
     }
 
+    @Override
     @Transactional(readOnly=true)
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
 
+    @Override
     @Transactional(readOnly=true)
     public Product getProductById(Long id) {
         Product product = productRepository.findById(id);
@@ -50,8 +48,9 @@ public class ProductService {
         return product;
     }
 
+    @Override
     @Transactional
-    public void updateProduct(Long id, ProductUpdateRequest request){
+    public void updateProduct(Long id, ProductRequest request){
         Product product = productRepository.findById(id);
 
         if (product == null){
@@ -65,6 +64,7 @@ public class ProductService {
         );
     }
 
+    @Override
     @Transactional
     public void deleteProduct(Long id){
         Product product = productRepository.findById(id);

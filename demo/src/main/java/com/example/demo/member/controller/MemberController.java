@@ -1,12 +1,13 @@
-package com.example.demo.member;
+package com.example.demo.member.controller;
 
 import com.example.demo.member.dto.MemberCreateRequest;
 import com.example.demo.member.dto.MemberUpdateRequest;
 
+import com.example.demo.member.entity.Member;
+import com.example.demo.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
